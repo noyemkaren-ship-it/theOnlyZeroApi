@@ -1,0 +1,35 @@
+<%inherit file="base.html"/>
+<%def name="title()">Сообщение</%def>
+
+<h1>Сообщение</h1>
+
+<div class="user-card">
+    <div class="field">
+        <div class="label">От</div>
+        <div class="value">${message.sender_name}</div>
+    </div>
+    <div class="field">
+        <div class="label">Кому</div>
+        <div class="value">${message.getter_name}</div>
+    </div>
+</div>
+
+<div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 20px; white-space: pre-wrap; line-height: 1.7;">
+    ${message.content}
+</div>
+
+<div class="flex">
+    % if message.sender_name != user.name:
+        <a href="/conversation_page/${message.sender_name}" class="btn">Ответить</a>
+    % else:
+        <a href="/conversation_page/${message.getter_name}" class="btn">Открыть диалог</a>
+    % endif
+    
+    % if message.sender_name == user.name or user.name == 'admin':
+        <form action="/message/${message.id}/delete" method="POST" class="inline-form">
+            <button type="submit" class="btn btn-danger">Удалить</button>
+        </form>
+    % endif
+    
+    <a href="/messages_page" class="btn btn-muted">Назад</a>
+</div>

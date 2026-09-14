@@ -1,0 +1,24 @@
+<%inherit file="base.html"/>
+<%def name="title()">${poem.title}</%def>
+
+<h1>${poem.title}</h1>
+
+<div class="user-card">
+    <div class="field">
+        <div class="label">Автор</div>
+        <div class="value">${poem.author}</div>
+    </div>
+</div>
+
+<div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 30px; margin-bottom: 20px; font-style: italic; line-height: 1.8; white-space: pre-wrap;">
+    ${poem.content}
+</div>
+
+% if user and (user.name == 'admin' or poem.author == user.name):
+    <form action="/poem/${poem.id}/delete" method="POST">
+        <button type="submit" class="btn btn-danger">Удалить</button>
+    </form>
+% endif
+
+<hr class="divider">
+<a href="/poems_page" class="btn btn-muted">Назад</a>

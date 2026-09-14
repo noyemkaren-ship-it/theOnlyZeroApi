@@ -1,0 +1,28 @@
+<%inherit file="base.html"/>
+<%def name="title()">Стихи</%def>
+
+<h1>Стихи</h1>
+
+% if user:
+    <div class="flex" style="margin-bottom: 20px;">
+        <a href="/add_poem_page" class="btn">Добавить стих</a>
+        <a href="/my_poems_page" class="btn btn-muted">Мои стихи</a>
+    </div>
+% endif
+
+% if poems:
+    <div class="grid">
+        % for poem in poems:
+            <div class="book-card">
+                <div class="book-title">${poem.title}</div>
+                <div class="book-creators">Автор: ${poem.author}</div>
+                <p style="margin: 10px 0; color: var(--text-secondary); font-style: italic;">
+                    ${poem.content[:150]}...
+                </p>
+                <a href="/poem/${poem.id}" class="btn btn-muted" style="font-size: 13px; padding: 6px 12px;">Читать</a>
+            </div>
+        % endfor
+    </div>
+% else:
+    <p class="muted">Стихи не найдены</p>
+% endif

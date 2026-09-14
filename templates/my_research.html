@@ -1,0 +1,36 @@
+<%inherit file="base.html"/>
+<%def name="title()">Мои исследования</%def>
+
+<h1>Мои исследования</h1>
+
+% if research_list:
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            % for research in research_list:
+                <tr>
+                    <td>${research.title}</td>
+                    <td>${research.description[:100]}...</td>
+                    <td>
+                        <div class="flex">
+                            <a href="/research/${research.title}" class="btn btn-muted">Просмотр</a>
+                            <a href="/research/${research.title}/download" class="btn">Скачать</a>
+                            <form action="/research/${research.title}/delete" method="POST" class="inline-form">
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            % endfor
+        </tbody>
+    </table>
+% else:
+    <p class="muted">У вас пока нет исследований</p>
+    <a href="/add_research_page" class="btn">Добавить исследование</a>
+% endif

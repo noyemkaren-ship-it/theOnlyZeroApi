@@ -1,0 +1,80 @@
+<%inherit file="base.html"/>
+<%def name="title()">Сообщения</%def>
+
+<h1>Сообщения</h1>
+
+<div class="flex" style="margin-bottom: 20px;">
+    <a href="/send_message_page" class="btn">Написать сообщение</a>
+</div>
+
+<h2>Входящие (${len(inbox)})</h2>
+% if inbox:
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>От кого</th>
+                <th>Сообщение</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            % for msg in inbox:
+                <tr>
+                    <td>${msg.sender_name}</td>
+                    <td>
+                        <a href="/message_page/${msg.id}" style="color: var(--text-primary); text-decoration: none;">
+                            ${msg.content[:80]}${'...' if len(msg.content) > 80 else ''}
+                        </a>
+                    </td>
+                    <td>
+                        <div class="flex">
+                            <a href="/message_page/${msg.id}" class="btn btn-muted">Читать</a>
+                            <a href="/conversation_page/${msg.sender_name}" class="btn btn-muted">Ответить</a>
+                            <form action="/message/${msg.id}/delete" method="POST" class="inline-form">
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            % endfor
+        </tbody>
+    </table>
+% else:
+    <p class="muted">Входящих сообщений нет</p>
+% endif
+
+<h2>Исходящие (${len(outbox)})</h2>
+% if outbox:
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Кому</th>
+                <th>Сообщение</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            % for msg in outbox:
+                <tr>
+                    <td>${msg.getter_name}</td>
+                    <td>
+                        <a href="/message_page/${msg.id}" style="color: var(--text-primary); text-decoration: none;">
+                            ${msg.content[:80]}${'...' if len(msg.content) > 80 else ''}
+                        </a>
+                    </td>
+                    <td>
+                        <div class="flex">
+                            <a href="/message_page/${msg.id}" class="btn btn-muted">Читать</a>
+                            <a href="/conversation_page/${msg.getter_name}" class="btn btn-muted">Открыть</a>
+                            <form action="/message/${msg.id}/delete" method="POST" class="inline-form">
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            % endfor
+        </tbody>
+    </table>
+% else:
+    <p class="muted">Исходящих сообщений нет</p>
+% endif

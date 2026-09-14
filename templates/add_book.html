@@ -1,0 +1,39 @@
+<%inherit file="base.html"/>
+<%def name="title()">Добавить книгу</%def>
+
+<h1>Добавление книги</h1>
+
+% if error:
+    <div class="error">${error}</div>
+% endif
+
+<form action="/add_book_page" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="title">Название</label>
+        <input type="text" id="title" name="title" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Описание</label>
+        <textarea id="description" name="description"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="classmets">Класс</label>
+        <input type="text" id="classmets" name="classmets">
+    </div>
+    <div class="form-group">
+        <label for="review">Рейтинг (0-10)</label>
+        <input type="number" id="review" name="review" min="0" max="10" value="0">
+    </div>
+    <div class="form-group">
+        <label for="creators">Авторы книги</label>
+        <input type="text" id="creators" name="creators" required>
+    </div>
+    <div class="form-group">
+        <label for="file">Файл книги</label>
+        <input type="file" id="file" name="file" required>
+    </div>
+    <button type="submit" class="btn">Добавить</button>
+</form>
+
+<hr class="divider">
+<a href="/books_page" class="btn btn-muted">Назад</a>

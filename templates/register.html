@@ -1,0 +1,31 @@
+<%inherit file="base.html"/>
+<%def name="title()">Регистрация</%def>
+
+<h1>Создание аккаунта</h1>
+
+% if error:
+    <div class="error">${error}</div>
+% endif
+
+<form action="/register_page" method="POST">
+    <div class="form-group">
+        <label for="name">Имя</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-group">
+        <label for="password">Пароль</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Описание</label>
+        <textarea id="description" name="description"></textarea>
+    </div>
+    <button type="submit" class="btn">Создать</button>
+</form>
+
+<hr class="divider">
+<p class="muted">Уже есть аккаунт? <a href="/login_page" style="color: var(--accent);">Войти</a></p>

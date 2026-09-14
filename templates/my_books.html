@@ -1,0 +1,40 @@
+<%inherit file="base.html"/>
+<%def name="title()">Мои книги</%def>
+
+<h1>Мои книги</h1>
+
+% if books:
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Авторы</th>
+                <th>Рейтинг</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            % for book in books:
+                <tr>
+                    <td class="mono">${book.id}</td>
+                    <td>${book.title}</td>
+                    <td>${book.creators}</td>
+                    <td>${book.review}/10</td>
+                    <td>
+                        <div class="flex">
+                            <a href="/book/${book.id}" class="btn btn-muted">Просмотр</a>
+                            <a href="/files/${book.file_name}/download" class="btn">Скачать</a>
+                            <form action="/book/${book.id}/delete" method="POST" class="inline-form">
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            % endfor
+        </tbody>
+    </table>
+% else:
+    <p class="muted">У вас пока нет книг</p>
+    <a href="/add_book_page" class="btn">Добавить книгу</a>
+% endif

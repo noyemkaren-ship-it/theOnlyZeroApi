@@ -1,0 +1,81 @@
+<%inherit file="base.html"/>
+<%def name="title()">Диалог с ${other_user}</%def>
+
+<style>
+    .conversation {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 20px;
+        max-height: 500px;
+        overflow-y: auto;
+        margin-bottom: 20px;
+    }
+    
+    .msg {
+        margin-bottom: 15px;
+        max-width: 70%;
+        padding: 10px 15px;
+        border-radius: 8px;
+        line-height: 1.5;
+    }
+    
+    .msg.mine {
+        margin-left: auto;
+        background: var(--accent);
+        color: white;
+        border-radius: 8px 8px 0 8px;
+    }
+    
+    .msg.theirs {
+        margin-right: auto;
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        border-radius: 8px 8px 8px 0;
+    }
+    
+    .msg-author {
+        font-size: 12px;
+        opacity: 0.7;
+        margin-bottom: 5px;
+    }
+</style>
+
+<h1>Диалог с ${other_user}</h1>
+
+<div class="conversation">
+    % if messages:
+        % for msg in messages:
+            % if msg.sender_name == user.name:
+                <div class="msg mine">
+                    <div class="msg-author">Вы</div>
+                    ${msg.content}
+                </div>
+            % else:
+                <div class="msg theirs">
+                    <div class="msg-author">${msg.sender_name}</div>
+                    ${msg.content}
+                </div>
+            % endif
+        % endfor
+    % else:
+        <p class="muted">Сообщений пока нет. Начните диалог!</p>
+    % endif
+</div>
+
+<form action="/conversation_page/${other_user}" method="POST">
+    <div class="form-group">
+        <textarea id="content" name="content" placeholder="Введите сообщение..." required></textarea>
+    </div>
+    <button type="submit" class="btn">Отправить</button>
+</form>
+
+<hr class="divider">
+<a href="/messages_page" class="btn btn-muted">Назад</a>
+
+<script>
+    const conversation = document.querySelector('.conversation');
+    if (conversation) {
+        conversation.scrollTop = conversation.scrollHeight;
+    }
+</script>

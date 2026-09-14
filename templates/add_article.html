@@ -1,0 +1,27 @@
+<%inherit file="base.html"/>
+<%def name="title()">Добавить статью</%def>
+
+<h1>Добавление статьи</h1>
+
+% if error:
+    <div class="error">${error}</div>
+% endif
+
+<form action="/add_article_page" method="POST">
+    <div class="form-group">
+        <label for="title">Название</label>
+        <input type="text" id="title" name="title" required>
+    </div>
+    <div class="form-group">
+        <label for="classmates">Предмет</label>
+        <input type="text" id="classmates" name="classmates">
+    </div>
+    <div class="form-group">
+        <label for="text">Текст статьи</label>
+        <textarea id="text" name="text" style="min-height: 300px;" required></textarea>
+    </div>
+    <button type="submit" class="btn">Добавить</button>
+</form>
+
+<hr class="divider">
+<a href="/articles_page" class="btn btn-muted">Назад</a>

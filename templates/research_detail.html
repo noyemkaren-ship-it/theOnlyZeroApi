@@ -1,0 +1,27 @@
+<%inherit file="base.html"/>
+<%def name="title()">${research.title}</%def>
+
+<h1>${research.title}</h1>
+
+<div class="user-card">
+    <div class="field">
+        <div class="label">Автор</div>
+        <div class="value">${research.creator}</div>
+    </div>
+    <div class="field">
+        <div class="label">Описание</div>
+        <div class="value">${research.description or 'Нет описания'}</div>
+    </div>
+</div>
+
+<div class="flex">
+    <a href="/research/${research.title}/download" class="btn">Скачать документ</a>
+    <a href="/research_page" class="btn btn-muted">Назад</a>
+</div>
+
+% if user and (user.name == 'admin' or research.creator == user.name):
+    <hr class="divider">
+    <form action="/research/${research.title}/delete" method="POST">
+        <button type="submit" class="btn btn-danger">Удалить</button>
+    </form>
+% endif

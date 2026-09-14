@@ -1,0 +1,40 @@
+<%inherit file="base.html"/>
+<%def name="title()">${book.title}</%def>
+
+<h1>${book.title}</h1>
+
+<div class="user-card">
+    <div class="field">
+        <div class="label">ID</div>
+        <div class="value mono">${book.id}</div>
+    </div>
+    <div class="field">
+        <div class="label">Авторы</div>
+        <div class="value">${book.creators}</div>
+    </div>
+    <div class="field">
+        <div class="label">Класс</div>
+        <div class="value">${book.classmets}</div>
+    </div>
+    <div class="field">
+        <div class="label">Рейтинг</div>
+        <div class="value">${book.review}/10</div>
+    </div>
+    <div class="field">
+        <div class="label">Добавил</div>
+        <div class="value">${book.author}</div>
+    </div>
+    <div class="field">
+        <div class="label">Дата</div>
+        <div class="value">${book.created_at}</div>
+    </div>
+</div>
+
+<h2>Описание</h2>
+<p>${book.description or 'Нет описания'}</p>
+
+<hr class="divider">
+<div class="flex">
+    <a href="/files/${book.file_name}/download" class="btn">Скачать файл</a>
+    <a href="/books_page" class="btn btn-muted">Назад</a>
+</div>

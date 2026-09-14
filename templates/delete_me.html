@@ -1,0 +1,30 @@
+<%inherit file="base.html"/>
+<%def name="title()">Удаление</%def>
+
+<h1>Удаление аккаунта</h1>
+
+<div class="warning">
+    Внимание! Это действие необратимо. Все данные будут удалены.
+</div>
+
+<div class="user-card">
+    <div class="field">
+        <div class="label">ID</div>
+        <div class="value mono">${user.id}</div>
+    </div>
+    <div class="field">
+        <div class="label">Имя</div>
+        <div class="value">${user.name}</div>
+    </div>
+    <div class="field">
+        <div class="label">Email</div>
+        <div class="value">${user.email}</div>
+    </div>
+</div>
+
+<form action="/delete_me" method="POST">
+    <button type="submit" class="btn btn-danger">Подтвердить удаление</button>
+</form>
+
+<hr class="divider">
+<a href="/me_page" class="btn btn-muted">Отмена</a>

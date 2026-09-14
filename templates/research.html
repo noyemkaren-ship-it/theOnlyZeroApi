@@ -1,0 +1,31 @@
+<%inherit file="base.html"/>
+<%def name="title()">Исследования</%def>
+
+<h1>Исследования</h1>
+
+% if user:
+    <div class="flex" style="margin-bottom: 20px;">
+        <a href="/add_research_page" class="btn">Добавить исследование</a>
+        <a href="/my_research_page" class="btn btn-muted">Мои исследования</a>
+    </div>
+% endif
+
+% if research_list:
+    <div class="grid">
+        % for research in research_list:
+            <div class="book-card">
+                <div class="book-title">${research.title}</div>
+                <div class="book-creators">Автор: ${research.creator}</div>
+                <p style="margin: 10px 0; color: var(--text-secondary);">
+                    ${research.description[:150]}...
+                </p>
+                <div class="flex">
+                    <a href="/research/${research.title}" class="btn btn-muted" style="font-size: 13px; padding: 6px 12px;">Подробнее</a>
+                    <a href="/research/${research.title}/download" class="btn" style="font-size: 13px; padding: 6px 12px;">Скачать</a>
+                </div>
+            </div>
+        % endfor
+    </div>
+% else:
+    <p class="muted">Исследования не найдены</p>
+% endif

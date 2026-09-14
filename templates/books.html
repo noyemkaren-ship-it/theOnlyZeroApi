@@ -1,0 +1,188 @@
+<%inherit file="base.html"/>
+<%def name="title()">Библиотека</%def>
+
+<style>
+    .search-bar {
+        margin-bottom: 30px;
+    }
+    
+    .search-input {
+        width: 100%;
+        padding: 12px 16px;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text-primary);
+        font-size: 16px;
+        transition: all 0.2s;
+    }
+    
+    .search-input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.1);
+    }
+    
+    .filters {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+        padding: 8px 16px;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 14px;
+    }
+    
+    .filter-btn:hover,
+    .filter-btn.active {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent);
+    }
+    
+    .books-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+    }
+    
+    .book-card {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        transition: all 0.2s;
+    }
+    
+    .book-card:hover {
+        box-shadow: var(--shadow-hover);
+        transform: translateY(-2px);
+    }
+    
+    .book-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    
+    .book-creators {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-bottom: 8px;
+    }
+    
+    .book-class {
+        display: inline-block;
+        padding: 4px 10px;
+        background: var(--bg-tertiary);
+        border-radius: 4px;
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 10px;
+    }
+    
+    .book-rating {
+        font-size: 14px;
+        color: var(--warning);
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    
+    .book-author {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 15px;
+    }
+</style>
+
+<h1>Библиотека</h1>
+
+% if user:
+    <div class="flex" style="margin-bottom: 20px;">
+        <a href="/add_book_page" class="btn">Добавить книгу</a>
+        <a href="/my_books_page" class="btn btn-muted">Мои книги</a>
+    </div>
+% endif
+
+<div class="search-bar">
+    <input type="text" id="search" class="search-input" placeholder="Поиск по названию, авторам или предмету..." onkeyup="filterBooks()">
+</div>
+
+<div class="filters" id="subjectFilters">
+    <button class="filter-btn active" onclick="filterBySubject('all')">Все</button>
+    % for subject in subjects:
+        <button class="filter-btn" onclick="filterBySubject('${subject}')">${subject}</button>
+    % endfor
+</div>
+
+<div class="books-grid" id="booksGrid">
+    % for book in books:
+        <div class="book-card" data-title="${book.title.lower()}" data-creators="${book.creators.lower()}" data-class="${book.classmets.lower()}">
+            <div class="book-title">${book.title}</div>
+            <div class="book-creators">${book.creators}</div>
+            <span class="book-class">${book.classmets or 'Без предмета'}</span>
+            <div class="book-rating">★ ${book.review}/10</div>
+            <div class="book-author">Добавил: ${book.author}</div>
+            <div class="flex">
+                <a href="/book/${book.id}" class="btn btn-muted" style="font-size: 13px; padding: 6px 12px;">Подробнее</a>
+                <a href="/files/${book.file_name}/download" class="btn" style="font-size: 13px; padding: 6px 12px;">Скачать</a>
+            </div>
+        </div>
+    % endfor
+</div>
+
+<div id="noResults" style="display: none; text-align: center; padding: 40px;">
+    <p class="muted">Ничего не найдено</p>
+</div>
+
+<script>
+    let currentSubject = 'all';
+    
+    function filterBooks() {
+        const searchTerm = document.getElementById('search').value.toLowerCase();
+        const books = document.querySelectorAll('.book-card');
+        let visibleCount = 0;
+        
+        books.forEach(book => {
+            const title = book.dataset.title;
+            const creators = book.dataset.creators;
+            const bookClass = book.dataset.class;
+            
+            const matchesSearch = title.includes(searchTerm) || 
+                                  creators.includes(searchTerm) || 
+                                  bookClass.includes(searchTerm);
+            
+            const matchesSubject = currentSubject === 'all' || bookClass === currentSubject;
+            
+            if (matchesSearch && matchesSubject) {
+                book.style.display = 'block';
+                visibleCount++;
+            } else {
+                book.style.display = 'none';
+            }
+        });
+        
+        document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+    
+    function filterBySubject(subject) {
+        currentSubject = subject.toLowerCase();
+        
+        // Обновляем активную кнопку
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+        
+        filterBooks();
+    }
+</script>
