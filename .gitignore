@@ -1,4 +1,4 @@
 key.txt
-.idea
-./users.db
-./__pyrache__
+.idea/
+users.db
+__pycache__/
