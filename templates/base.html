@@ -418,9 +418,8 @@
                     <a href="/articles_page" class="${'active' if request.url.path == '/articles_page' else ''}">Статьи</a>
                     <a href="/research_page" class="${'active' if request.url.path == '/research_page' else ''}">Исследования</a>
                     <a href="/poems_page" class="${'active' if request.url.path == '/poems_page' else ''}">Стихи</a>
-                    <a href="/files_page" class="${'active' if request.url.path == '/files_page' else ''}">Файлы</a>
                     <a href="/chat_page" class="${'active' if request.url.path == '/chat_page' else ''}">AI Чат</a>
-                    <a href="/asking" class="${'active' if request.url.path == '/asking' else ''}">Найти в Yandex</a>
+                    <a href="/asking_yndex" class="${'active' if request.url.path == '/asking' else ''}">Найти в Yandex</a>
                     <a href="/messages_page" class="${'active' if request.url.path == '/messages_page' else ''}">Сообщения</a>
                     % if user.name == 'admin':
                         <a href="/users_page" class="${'active' if request.url.path == '/users_page' else ''}">Пользователи</a>

@@ -936,6 +936,21 @@ async def send_message_page(request: Request, to: str = None):
     )
     return HTMLResponse(template)
 
+@router.get("/asking_yndex", response_class=HTMLResponse)
+async def yandexe(request: Request, to: str = None):
+    user = get_current_user_required(request)
+    
+    template = render_template(
+        "yandex_research.html",
+        request=request,
+        user=user,
+        to=to,
+        error=None,
+        success=None
+    )
+    return HTMLResponse(template)
+
+
 @router.post("/send_message_page", response_class=HTMLResponse)
 async def send_message_post(
     request: Request,

@@ -1,0 +1,44 @@
+<%inherit file="base.html"/>
+<%def name="title()">Поиск в Яндексе</%def>
+
+<div class="search-page">
+    <div class="search-hero">
+        <h1 class="search-title">Найти в Яндексе</h1>
+        <p class="search-subtitle">Введите вопрос — мы откроем результаты поиска</p>
+
+        <form action="https://yandex.ru/search/" method="GET" target="_blank" class="search-form">
+            <div class="search-box">
+                <input
+                    type="text"
+                    name="text"
+                    class="search-input"
+                    placeholder="Введите ваш вопрос..."
+                    autocomplete="off"
+                    autofocus
+                    required
+                />
+                <button type="submit" class="btn btn-primary search-btn">
+                    Найти
+                </button>
+            </div>
+        </form>
+
+        <div class="search-hints">
+            <span class="hint-label">Попробуйте:</span>
+            <button type="button" class="hint-chip" data-query="погода сегодня">погода сегодня</button>
+            <button type="button" class="hint-chip" data-query="курс доллара">курс доллара</button>
+            <button type="button" class="hint-chip" data-query="новости">новости</button>
+            <button type="button" class="hint-chip" data-query="как приготовить пасту">как приготовить пасту</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.hint-chip').forEach(function (chip) {
+        chip.addEventListener('click', function () {
+            var input = document.querySelector('.search-input');
+            input.value = chip.dataset.query;
+            input.focus();
+        });
+    });
+</script>
